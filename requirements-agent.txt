@@ -1,0 +1,3 @@
+# Extra dependencies for running the survey agent on LiveKit (local machine only)
+-r requirements.txt
+livekit-agents[groq,sarvam,silero]~=1.8

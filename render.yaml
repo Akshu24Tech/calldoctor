@@ -1,0 +1,17 @@
+# One-click deploy on Render's free tier: New → Blueprint → pick this repo.
+# For data that survives restarts, set DATABASE_URL to a free Neon Postgres URL.
+services:
+  - type: web
+    name: calldoctor
+    runtime: docker
+    plan: free
+    healthCheckPath: /healthz
+    envVars:
+      - key: CALLDOCTOR_TOKEN
+        generateValue: true        # shared secret for webhooks and the Run button
+      - key: GROQ_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: PUBLIC_URL
+        sync: false

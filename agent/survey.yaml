@@ -1,0 +1,57 @@
+# CallDoctor test subject: an outbound citizen-feedback survey agent.
+# The same config is deployed to LiveKit, Vapi and Retell. CallDoctor's job
+# is to find where it breaks, on any of them.
+
+name: seva-feedback
+display_name: "Seva Feedback"
+
+# Which prompt version is live. v1 = naive first draft, v2 = fixed after
+# CallDoctor's first failure report. Compare them with:
+#   python -m calldoctor compare v1 v2
+active_version: v2
+
+first_message: >-
+  Namaste, I'm calling from the Seva Feedback desk about your recent visit
+  to a government service centre. It takes about two minutes. Is now a good time?
+
+# What a complete survey must capture. CallDoctor checks every call against
+# this list, and validates the values with code, not just the LLM.
+required_fields:
+  service:
+    description: Which service they used
+    allowed: [aadhaar, ration_card, pension, land_records, certificate, other]
+  wait_minutes:
+    description: Roughly how long they waited, in minutes
+    type: int
+    min: 0
+    max: 600
+  resolved:
+    description: Whether their work got done
+    type: bool
+  rating:
+    description: Overall rating from 1 to 5
+    type: int
+    min: 1
+    max: 5
+  complaint:
+    description: Main complaint or suggestion, or "none"
+    type: str
+
+llm:
+  model: llama-3.3-70b-versatile     # Groq, free tier
+  temperature: 0.4
+
+max_call_seconds: 240
+
+platforms:
+  livekit:
+    agent_name: seva-feedback
+    stt: { provider: sarvam, model: "saaras:v3", language: en-IN }
+    tts: { provider: sarvam, model: "bulbul:v3", speaker: priya, language: en-IN }
+  vapi:
+    transcriber: { provider: deepgram, model: nova-3, language: en }
+    voice: { provider: vapi, voiceId: Elliot }
+  retell:
+    model: gpt-4.1-mini
+    voice_id: retell-Cimo
+    language: en-IN
