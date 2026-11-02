@@ -16,8 +16,8 @@ load_dotenv(ROOT / ".env")
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 AGENT_MODEL_OVERRIDE = os.environ.get("AGENT_MODEL", "")
-CALLER_MODEL = os.environ.get("CALLER_MODEL", "llama-3.1-8b-instant")
-JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "llama-3.3-70b-versatile")
+CALLER_MODEL = os.environ.get("CALLER_MODEL", "openai/gpt-oss-20b")
+JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "openai/gpt-oss-120b")
 
 # Shared secret for webhooks and admin actions. Put it in every webhook URL
 # as ?token=..., and in the dashboard when you trigger a simulation.

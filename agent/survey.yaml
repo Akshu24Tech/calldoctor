@@ -38,7 +38,7 @@ required_fields:
     type: str
 
 llm:
-  model: llama-3.3-70b-versatile     # Groq, free tier
+  model: openai/gpt-oss-120b         # Groq, free tier
   temperature: 0.4
 
 max_call_seconds: 240
